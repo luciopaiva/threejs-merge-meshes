@@ -12,3 +12,25 @@ I exported a simple town as `.obj`, opened it in Blender and saw that all the pi
 ![](mesh.png)
 
 That's interesting because it's a single object being sent to the GPU, let alone there are redundant vertices since the hidden faces between blocks were deleted.
+
+## The experiment
+
+The experiment consists of two boxes displaced side by side, touching faces.
+
+![](boxes.png)
+
+## mergeGeometries()
+
+The first Google result suggested using `BufferGeometryUtils.mergeGeometries()`. While it does merge two geometries into one, it does not eliminate the hidden faces. The image below shows the two edges that were supposed to be gone:
+
+![](merge-geometries.png)
+
+## Constructive Solid Geometry
+
+At some point I stumbled upon [this SO question](https://stackoverflow.com/q/35355615/778272) where I was introduced to the technique of [Constructive Solid Geometry](https://en.wikipedia.org/wiki/Constructive_solid_geometry) (CSG). The idea is then to use the union operation to merge geometries. 
+
+[This Three.js example](https://threejs.org/examples/webgl_geometry_csg.html) shows how to use CSG via this library called three-bvh-csg.
+
+It really worked to remove the hidden faces:
+
+![](csg.png)

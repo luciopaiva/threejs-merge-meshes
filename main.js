@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
+import { ADDITION, Brush, Evaluator } from "three-bvh-csg";
 
 const scene = new THREE.Scene();
 
@@ -22,8 +23,8 @@ geometry1.translate(-0.5, 0, 0);
 const material1 = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
 const cube1 = new THREE.Mesh(geometry1, material1);
 
-cube1.position.set(-0.5, 0, 0);
-scene.add(cube1);
+// cube1.position.set(-0.5, 0, 0);
+// scene.add(cube1);
 
 const geometry2 = new THREE.BoxGeometry(1, 1, 1);
 // it's important to translate the geometry, not the mesh
@@ -31,14 +32,25 @@ geometry2.translate(+0.5, 0, 0);
 const material2 = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true });
 const cube2 = new THREE.Mesh(geometry2, material2);
 
-cube2.position.set(+0.5, 0, 0);
-scene.add(cube2);
+// cube2.position.set(+0.5, 0, 0);
+// scene.add(cube2);
 
 // Merge the geometries
 const mergedGeometry = BufferGeometryUtils.mergeGeometries([cube1.geometry, cube2.geometry]);
 const material3 = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
 const mergedMesh = new THREE.Mesh(mergedGeometry, material3);
-scene.add(mergedMesh);
+// scene.add(mergedMesh);
+
+const brush1 = new Brush(cube1.geometry);
+brush1.updateMatrixWorld();
+
+const brush2 = new Brush(cube2.geometry);
+brush2.updateMatrixWorld();
+
+const evaluator = new Evaluator();
+const result = evaluator.evaluate(brush1, brush2, ADDITION);
+result.material = material3;
+scene.add(result);
 
 function animate() {
     requestAnimationFrame(animate);
