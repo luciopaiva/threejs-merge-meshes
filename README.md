@@ -5,10 +5,10 @@ The goal with this little experiment is to understand what needs to be done to m
 
 The thought came to me when playing Townscaper.
 
-![](img_1.png)
+![](town.png)
 
 I exported a simple town as `.obj`, opened it in Blender and saw that all the pieces were merged into a single mesh:
 
-![](img.png)
+![](mesh.png)
 
 That's interesting because it's a single object being sent to the GPU, let alone there are redundant vertices since the hidden faces between blocks were deleted.
