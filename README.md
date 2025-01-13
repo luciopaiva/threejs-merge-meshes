@@ -34,3 +34,17 @@ At some point I stumbled upon [this SO question](https://stackoverflow.com/q/353
 It really worked to remove the hidden faces:
 
 ![](csg.png)
+
+## Simplifying even further
+
+The hidden face was removed, but there are still redundant triangles. For example, the front face is currently made of 4 triangles, but they could be just 2:
+
+![](front-face.png)
+
+Townscaper is not doing it, though, as can be seen here:
+
+![img.png](img.png)
+
+Notice the wall is composed of several columns and rows. Even if we consider Townscaper's irregular grid and the fact that the building facade is not exactly a straight line, within a given column the individual blocks could be merged into a single one (since the building grows straight up).
+
+Nevertheless, there's an open question if this optimization is worth doing, specially in cases where it needs to be performed in real time.
